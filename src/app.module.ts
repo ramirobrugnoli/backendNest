@@ -4,15 +4,10 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { MoviesModule } from './movies/movies.module';
-import { AuthModule } from './users/users.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
-  imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
-    DatabaseModule,
-    MoviesModule,
-    AuthModule,
-  ],
+  imports: [ConfigModule.forRoot(), DatabaseModule, MoviesModule, UsersModule],
   controllers: [AppController],
   providers: [AppService],
 })
