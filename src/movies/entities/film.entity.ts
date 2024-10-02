@@ -52,7 +52,7 @@ export class Film {
   @Column()
   created: Date;
 
-  @Column()
+  @Column({ nullable: true })
   edited: Date;
 
   @Column({ nullable: true, type: 'bigint' })

@@ -3,6 +3,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from '../entities/user.entity';
 import { Repository } from 'typeorm';
 import { AdminStatus } from '../constants';
+import { instanceToPlain } from 'class-transformer';
 
 @Injectable()
 export class UsersService {
@@ -36,6 +37,6 @@ export class UsersService {
       throw new NotFoundException('User not found');
     }
     user.role = isAdmin;
-    return this.repo.save(user);
+    return this.repo.save(instanceToPlain(user));
   }
 }

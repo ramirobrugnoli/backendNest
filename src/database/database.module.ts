@@ -17,7 +17,7 @@ import { Character } from 'src/movies/entities/character.entity';
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
         entities: [User, Film, Character],
-        synchronize: true,
+        synchronize: false,
       }),
       inject: [ConfigService],
     }),
