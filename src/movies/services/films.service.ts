@@ -121,6 +121,13 @@ export class FilmsService {
   }
 
   async loadCharacters() {
+    const charactersArray = await this.characterRepository.find();
+    // como characters no debe mantenerse "sincronizado" ya que la app no expone endpoints para modificarlos, realizamos solo una carga inicial, y si ya están cargados salteamos este paso para agilizar el tiempo de build de la app
+    if (charactersArray.length > 0) {
+      this.logger.log('Characters are already loaded on db!');
+      return;
+    }
+
     this.logger.log('Starting characters loading');
     let nextUrl = 'https://swapi.dev/api/people/';
     let totalLoaded = 0;
