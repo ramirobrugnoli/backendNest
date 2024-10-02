@@ -1,9 +1,17 @@
-import { Injectable, Logger } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { In, Repository } from 'typeorm';
 import { Film } from '../entities/film.entity';
 import { Character } from '../entities/character.entity';
 import { StarWarsApiService } from './movies-api.service';
+import { CreateFilmDto } from '../dtos/create-film.dto';
+import { UpdateFilmDto } from '../dtos/update-film.dto';
 
 @Injectable()
 export class FilmsService {
@@ -23,6 +31,93 @@ export class FilmsService {
       order: { episode_id: 'ASC' },
     });
     return films;
+  }
+
+  async getOneFilm(episode_id: number) {
+    const film = await this.filmRepository.findOne({
+      where: { episode_id },
+      relations: ['characters'],
+    });
+
+    if (!film) {
+      return null;
+    }
+
+    return film;
+  }
+
+  async createFilm(createFilmDto: CreateFilmDto, userId: number) {
+    this.logger.log(
+      `Creating film with episode id: ${createFilmDto.episode_id}`,
+    );
+    const { episode_id, character_urls, ...filmData } = createFilmDto;
+    try {
+      const checkPreviousFilms = await this.filmRepository.findOne({
+        where: { episode_id },
+      });
+
+      if (checkPreviousFilms) {
+        throw new BadRequestException(
+          `Film with episode id ${episode_id} already exists!`,
+        );
+      }
+
+      const now = new Date();
+      const film = this.filmRepository.create({
+        ...filmData,
+        episode_id,
+        created: now,
+        created_user: userId,
+      });
+
+      // ya q decidi hacer la relacion characters -> films, a la hora de crear obtengo los Charater{} por el id que dio el usuario y ya establezco la relación
+      if (character_urls && character_urls.length > 0) {
+        const characters = await this.characterRepository.find({
+          where: { url: In(character_urls) },
+        });
+        film.characters = characters;
+      }
+
+      const savedFilm = await this.filmRepository.save(film);
+      this.logger.log(`Successfully created film: ${savedFilm.title}`);
+      return savedFilm;
+    } catch (error) {
+      if (error instanceof BadRequestException) {
+        throw error;
+      }
+      this.logger.error('Error creating film:', error.stack);
+      throw new InternalServerErrorException('Error creating film');
+    }
+  }
+
+  async updateFilm(
+    episode_id: number,
+    updateFilmDto: UpdateFilmDto,
+    userId: number,
+  ) {
+    const film = await this.filmRepository.findOne({ where: { episode_id } });
+    if (!film) {
+      throw new NotFoundException(`Film with ID ${episode_id} not found`);
+    }
+
+    updateFilmDto.edited_user = userId;
+    Object.assign(film, updateFilmDto);
+
+    return this.filmRepository.save(film);
+  }
+
+  async deleteFilm(episode_id: number) {
+    const checkPreviousFilms = await this.filmRepository.findOne({
+      where: { episode_id },
+    });
+
+    if (!checkPreviousFilms) {
+      throw new BadRequestException(`Film with id  ${episode_id} nto found!`);
+    }
+
+    await this.filmRepository.delete({ episode_id });
+
+    return `Film ${episode_id} deleted correctly!`;
   }
 
   async loadCharacters() {

@@ -1,12 +1,9 @@
 import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 
 @Injectable()
-export class AdminGuard implements CanActivate {
+export class SuperAdminGuard implements CanActivate {
   canActivate(context: ExecutionContext): boolean {
     const request = context.switchToHttp().getRequest();
-    return (
-      request.user &&
-      (request.user.admin === 'admin' || request.user.admin === 'superadmin')
-    );
+    return request.user && request.user.admin === 'superadmin';
   }
 }

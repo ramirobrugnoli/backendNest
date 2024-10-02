@@ -55,6 +55,12 @@ export class Film {
   @Column()
   edited: Date;
 
+  @Column({ nullable: true, type: 'bigint' })
+  created_user: number;
+
+  @Column({ nullable: true, type: 'bigint' })
+  edited_user: number;
+
   constructor(partial: Partial<Film>) {
     Object.assign(this, partial);
   }
