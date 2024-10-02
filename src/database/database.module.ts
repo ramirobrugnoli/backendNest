@@ -1,7 +1,9 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from '../users/entities/user.entity'; // Importa la entidad User
+import { User } from '../users/entities/user.entity';
+import { Film } from 'src/movies/entities/film.entity';
+import { Character } from 'src/movies/entities/character.entity';
 
 @Module({
   imports: [
@@ -14,7 +16,7 @@ import { User } from '../users/entities/user.entity'; // Importa la entidad User
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User], // Usa la entidad User directamente
+        entities: [User, Film, Character],
         synchronize: true,
       }),
       inject: [ConfigService],
