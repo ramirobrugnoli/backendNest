@@ -124,7 +124,6 @@ export class FilmsService {
     this.logger.log('Starting characters loading');
     let nextUrl = 'https://swapi.dev/api/people/';
     let totalLoaded = 0;
-    let totalUpdated = 0;
 
     while (nextUrl) {
       const { results, next } =
@@ -135,22 +134,7 @@ export class FilmsService {
           where: { url: characterData.url },
         });
 
-        if (character) {
-          this.characterRepository.merge(character, {
-            name: characterData.name,
-            height: characterData.height,
-            mass: characterData.mass,
-            hair_color: characterData.hair_color,
-            skin_color: characterData.skin_color,
-            eye_color: characterData.eye_color,
-            birth_year: characterData.birth_year,
-            gender: characterData.gender,
-            homeworld: characterData.homeworld,
-            url: characterData.url,
-          });
-          await this.characterRepository.save(character);
-          totalUpdated++;
-        } else {
+        if (!character) {
           character = this.characterRepository.create({
             name: characterData.name,
             height: characterData.height,
@@ -170,9 +154,7 @@ export class FilmsService {
       nextUrl = next;
     }
 
-    this.logger.log(
-      `Loaded ${totalLoaded} new characters and updated ${totalUpdated} existing characters.`,
-    );
+    this.logger.log(`Loaded ${totalLoaded} new characters.`);
   }
 
   async syncFilms() {
