@@ -11,8 +11,8 @@ import {
   Req,
   UseGuards,
 } from '@nestjs/common';
-import { AuthGuard } from 'src/guards/auth.guard';
-import { AdminGuard } from 'src/guards/admin.guard';
+import { AuthGuard } from '../../guards/auth.guard';
+import { AdminGuard } from '../../guards/admin.guard';
 import { FilmsService } from '../services/films.service';
 import { CreateFilmDto } from '../dtos/create-film.dto';
 import { UpdateFilmDto } from '../dtos/update-film.dto';
