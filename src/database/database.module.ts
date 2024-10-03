@@ -1,9 +1,6 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { User } from '../users/entities/user.entity';
-import { Film } from 'src/movies/entities/film.entity';
-import { Character } from 'src/movies/entities/character.entity';
 
 @Module({
   imports: [
@@ -11,13 +8,18 @@ import { Character } from 'src/movies/entities/character.entity';
       imports: [ConfigModule],
       useFactory: (configService: ConfigService) => ({
         type: 'postgres',
+        url: configService.get('DATABASE_URL'),
         host: configService.get('DB_HOST'),
-        port: configService.get<number>('DB_PORT'),
+        port: configService.get('DB_PORT'),
         username: configService.get('DB_USERNAME'),
         password: configService.get('DB_PASSWORD'),
         database: configService.get('DB_NAME'),
-        entities: [User, Film, Character],
+        entities: [__dirname + '/../**/*.entity{.ts,.js}'],
         synchronize: false,
+        ssl:
+          process.env.NODE_ENV === 'production'
+            ? { rejectUnauthorized: false }
+            : false,
       }),
       inject: [ConfigService],
     }),
