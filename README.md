@@ -9,6 +9,7 @@
 ## Definición
   <p align="center">Este proyecto es un backend desarrollado en Nest con TypeScript, que consta de un servicio de logging y autorización a través de jwt para usuarios, y recupera información sobre peliculas a través de una API pública de star wars para guardarlos en una base de datos propia de la app (montada en PostgreSql).</p>
   <p>Los usuarios son definidos en 'user' / 'admin' / 'superadmin'. El 'superadmin' es el único usuario capaz de conceder/quitarle el status de admin al resto de los usuarios, a través de los endpoints definidos en /admin <a href="https://ibb.co/7KkCQf1"><img src="https://i.ibb.co/9WZghDr/image.png" alt="image" border="0"></a>  </p>
+  <p>En "produccion" está definido como 'superadmin' el usuario con las credenciales <b>"admin@admin.com" "adminpassword"</b> para testear en local, hay que asignar este rol manualmente al usuario deseado.</p>
   <p>La aplicación consume la API de star wars al momento de su despliegue (onModuleInit()), y llena su base de datos con los objetos de peliculas (/films) devueltos por la API. A su vez, al momento de su despliegue hace una consulta al endpoints de (/characters) de la API, almacenando en su base toda la información, y estableciendo una relación entre films y characters, para luego cuando un usuario consulta por determinada película, en lugar de recibir las "url" de los characters, pueda visualizar el objeto completo. <a href="https://ibb.co/tz2FB9b"><img src="https://i.ibb.co/1MXjZk9/50243740-6-FFC-4-FF1-BC39-1-FEF92-FFE31-F.png" alt="50243740-6-FFC-4-FF1-BC39-1-FEF92-FFE31-F" border="0"></a><p>Cuenta con un sistema de @Cron, en donde automaticamente todos los días a medianoche consulta la API de StarWars, y sincroniza los datos devueltos con los que tenemos alojados</p>
 
 ## APIs
@@ -21,6 +22,7 @@
 <a href="https://ibb.co/XywfSQz"><img src="https://i.ibb.co/PTSswL5/54488-C36-D20-F-4653-BA80-88-C8-FB1679-E2.png" alt="54488-C36-D20-F-4653-BA80-88-C8-FB1679-E2" border="0"></a>
 <li>Para testear el resto de funcionalidades, debemos cargar nuestro access_token en la pestaña 'Authorization', seleccionando el método "Bearer token"</li>
 <a href="https://ibb.co/JcfxGtD"><img src="https://i.ibb.co/vc7sTq0/4824-F09-A-26-D7-4-F8-E-8026-F88-CE22348-F8.png" alt="4824-F09-A-26-D7-4-F8-E-8026-F88-CE22348-F8" border="0"></a></ul>
+
 
 ## Testing
 <p>La app cuenta con todos sus servicios, controladores y guards testeados en jest</p>
