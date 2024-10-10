@@ -5,13 +5,6 @@
   <p>En "produccion" está definido como 'superadmin' el usuario con las credenciales <b>"admin@admin.com" "adminpassword"</b> para testear en local, hay que asignar este rol manualmente al usuario deseado.</p>
   <p>La aplicación consume la API de star wars al momento de su despliegue (onModuleInit()), y llena su base de datos con los objetos de peliculas (/films) devueltos por la API. A su vez, al momento de su despliegue hace una consulta al endpoints de (/characters) de la API, almacenando en su base toda la información, y estableciendo una relación entre films y characters, para luego cuando un usuario consulta por determinada película, en lugar de recibir las "url" de los characters, pueda visualizar el objeto completo. <a href="https://ibb.co/tz2FB9b"><img src="https://i.ibb.co/1MXjZk9/50243740-6-FFC-4-FF1-BC39-1-FEF92-FFE31-F.png" alt="50243740-6-FFC-4-FF1-BC39-1-FEF92-FFE31-F" border="0"></a><p>Cuenta con un sistema de @Cron, en donde automaticamente todos los días a medianoche consulta la API de StarWars, y sincroniza los datos devueltos con los que tenemos alojados</p>
 
-## Deploy
-<p>El proyecto backend está desplegado en un servidor de heroku, simulando "produccion".</p>
-<a>https://challenge-conexa-ff15a1129240.herokuapp.com/</a>
-<p>Por lo que podemos testear los endpoints tanto si levantamos la app localmente como en "producción"</p>
-<a href="https://ibb.co/SR7Pmtc"><img src="https://i.ibb.co/V2ptCgx/image.png" alt="image" border="0"></a>
-<a href="https://ibb.co/w06f97H"><img src="https://i.ibb.co/6nsk38h/image.png" alt="image" border="0"></a>
-
 ## APIs
 <p align="center">Todos sus endpoints están documentados a través de Swagger, por lo que podemos visualizar su funcionamiento entrando a la url/api.</p>
 <a align="center" styles="width: 100%" href="https://ibb.co/PrsfQDP"><img src="https://i.ibb.co/D1PSprv/6-AABDB8-D-C9-BE-4462-8491-6-F3-DDF1488-A7.png" alt="6-AABDB8-D-C9-BE-4462-8491-6-F3-DDF1488-A7" border="0" align="center"></a>
