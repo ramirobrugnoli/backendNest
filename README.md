@@ -1,8 +1,4 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://conexa.ai/meta-logo.jpg" width="240" alt="Conexa Logo" /></a>
-</p>
-
-  <p align="center"><b>Repositorio challenge conexa por Ramiro Brugnoli</b></p>
+<p align="center"><b>Backend Nest Ramiro Brugnoli</b></p>
     <p align="center">
 
 
