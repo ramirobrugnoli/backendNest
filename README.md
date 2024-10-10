@@ -1,6 +1,3 @@
-<p align="center"><b>Backend Nest Ramiro Brugnoli</b></p>
-    <p align="center">
-
 
 ## Definición
   <p align="center">Este proyecto es un backend desarrollado en Nest con TypeScript, que consta de un servicio de logging y autorización a través de jwt para usuarios, y recupera información sobre peliculas a través de una API pública de star wars para guardarlos en una base de datos propia de la app (montada en PostgreSql).</p>
